@@ -14,29 +14,27 @@ namespace Exchange.DeveloperTest.Services
         private List<IAccountDataStore> accountDataStores;
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
-            var result = new MakePaymentResult();
-            result.Success = false;
+            var result = new MakePaymentResult
+            {
+                Success = false
+            };
 
             accountDataStores = AccountDataStores.Get();
-            var accountDataStore = accountDataStores.FirstOrDefault(x => x.CheckAccountType(ConfigurationManager.AppSettings["DataStoreType"]));
+            var accountDataStore = accountDataStores.FirstOrDefault(x => x.CheckAccountType());
 
             if (accountDataStore == null)
-                return result; 
+                return result;
 
             account = accountDataStore.GetAccount(request.DebtorAccountNumber);
 
             if (account == null)
                 return result;
 
-            if (account.CheckAbilityToPay(request.PaymentScheme))
-            {
-                if (account.Decrease(request.Amount)) 
-                {
-                    result.Success = true;
-                    accountDataStore.UpdateAccount(account);
-                }
-            }
-            
+            if (!account.IsAllowedPaymentScheme(request.PaymentScheme))
+                return result;
+
+            result.Success = account.Decrease(request.Amount);
+
             return result;
         }
     }

@@ -17,7 +17,7 @@ namespace ClearBank.DeveloperTest.Tests
         {
             MakePaymentRequest mpr = new MakePaymentRequest
             {
-                Amount = 1000,
+                Amount = 1000m,
                 CreditorAccountNumber = "11111",
                 DebtorAccountNumber = "11111",
                 PaymentDate = DateTime.Now,
@@ -32,7 +32,7 @@ namespace ClearBank.DeveloperTest.Tests
         {
             MakePaymentRequest mpr = new MakePaymentRequest
             {
-                Amount = 10000,
+                Amount = 10000m,
                 CreditorAccountNumber = "11111",
                 DebtorAccountNumber = "11111",
                 PaymentDate = DateTime.Now,
@@ -47,7 +47,7 @@ namespace ClearBank.DeveloperTest.Tests
         {
             MakePaymentRequest mpr = new MakePaymentRequest
             {
-                Amount = 1000,
+                Amount = 1000m,
                 CreditorAccountNumber = "11111",
                 DebtorAccountNumber = "11111",
                 PaymentDate = DateTime.Now,
@@ -62,7 +62,7 @@ namespace ClearBank.DeveloperTest.Tests
         {
             MakePaymentRequest mpr = new MakePaymentRequest
             {
-                Amount = 10000,
+                Amount = 10000m,
                 CreditorAccountNumber = "11111",
                 DebtorAccountNumber = "11111",
                 PaymentDate = DateTime.Now,
@@ -77,7 +77,7 @@ namespace ClearBank.DeveloperTest.Tests
         {
             MakePaymentRequest mpr = new MakePaymentRequest
             {
-                Amount = 10000,
+                Amount = 10000m,
                 CreditorAccountNumber = "11111",
                 DebtorAccountNumber = "11111",
                 PaymentDate = DateTime.Now,
@@ -92,11 +92,41 @@ namespace ClearBank.DeveloperTest.Tests
         {
             MakePaymentRequest mpr = new MakePaymentRequest
             {
-                Amount = 10000,
+                Amount = 10000m,
                 CreditorAccountNumber = "11111",
                 DebtorAccountNumber = "11111",
                 PaymentDate = DateTime.Now,
                 PaymentScheme = PaymentScheme.Chaps
+            };
+            PaymentService ps = new PaymentService();
+            var a = ps.MakePayment(mpr);
+            Assert.AreEqual(true, a.Success);
+        }
+        [TestMethod]
+        public void MakeSoManyAmountBacsScheme()
+        {
+            MakePaymentRequest mpr = new MakePaymentRequest
+            {
+                Amount = 10000000000000000000000m,
+                CreditorAccountNumber = "11111",
+                DebtorAccountNumber = "11111",
+                PaymentDate = DateTime.Now,
+                PaymentScheme = PaymentScheme.Bacs
+            };
+            PaymentService ps = new PaymentService();
+            var a = ps.MakePayment(mpr);
+            Assert.AreEqual(true, a.Success);
+        }
+        [TestMethod]
+        public void MakeNullAmountNullNumberBacsScheme()
+        {
+            MakePaymentRequest mpr = new MakePaymentRequest
+            {
+                Amount = 0m,
+                CreditorAccountNumber = null, //Будет ошибка при выгрузке из БД
+                DebtorAccountNumber = null, //Будет ошибка при выгрузке из БД
+                PaymentDate = DateTime.Now,
+                PaymentScheme = PaymentScheme.Bacs
             };
             PaymentService ps = new PaymentService();
             var a = ps.MakePayment(mpr);

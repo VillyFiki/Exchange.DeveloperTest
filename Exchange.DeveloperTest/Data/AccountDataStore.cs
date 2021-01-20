@@ -10,16 +10,16 @@ namespace Exchange.DeveloperTest.Data
         {
             // Access database to retrieve account, code removed for brevity 
 
-            //Предположим, что это вывод из БД. В задаче не написано его делать. А чтобы проверить оно нужно. 
+            //Предположим, что это вывод из БД. В задаче не написано, что нужно его делать, но для тестов оно нужно. 
             return new Account
             {
                 Balance = 5000,
                 AccountNumber = "11111",
                 Status = AccountStatus.Live,
-                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs
-
+                AllowedPaymentSchemes = AllowedPaymentSchemes.FasterPayments
             };
         }
+
 
         public override void UpdateAccount(Account account)
         {
