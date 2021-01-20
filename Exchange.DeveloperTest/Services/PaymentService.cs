@@ -30,7 +30,7 @@ namespace Exchange.DeveloperTest.Services
             if (account == null)
                 return result;
 
-            if (!account.IsAllowedPaymentScheme(request.PaymentScheme))
+            if (!account.IsAllowedPaymentScheme(request.PaymentScheme)) 
                 return result;
 
             result.Success = account.Decrease(request.Amount);

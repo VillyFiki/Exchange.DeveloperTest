@@ -23,10 +23,12 @@
             if (account == null)
                 return false;
 
-            if ((int)paymentScheme != (int)account.AllowedPaymentSchemes)
+            if ((int)paymentScheme != (int)account.AllowedPaymentSchemes) 
                 return false;
             if ((int)paymentScheme != (int)AllowedPaymentSchemes.Chaps && account.Status != AccountStatus.Live)
                 return false;
+
+            //Меня смутило то, что в AllowedPaymentScheme сдвинуты номера. Я решил оставить как есть.
 
             return true;
         }
